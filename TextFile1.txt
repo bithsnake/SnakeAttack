@@ -1,0 +1,15 @@
+Några idéer på enhetstestning är t.ex.
+
+Skapa två Position-objekt. Kolla om de är == eller != varandra eller använd +operatorn om du också implementerade den. T.ex.
+
+Point a = new Point(...);
+Point b = new Point(...);
+Point c = a + b;
+Assert.AreEqual(a.X, ...);
+
+Skapa ett GameWorld-objekt. Kolla hur många element som ligger i dess GameObject-lista. Anropa CreateFood om du har den metoden och kontrollera sedan att antalet ändrats.
+
+Skapa ett Player-objekt. Sätt en viss position och riktning. Anropa dess Update() metod. Kolla vad positionen är nu.
+Player p = new Player(...);
+p.Update();
+Assert.AreEqual(p.Position.X, ...);

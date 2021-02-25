@@ -1,0 +1,66 @@
+﻿
+        enum Notes
+        {
+            C5,
+            C5Sharp,
+            D5,
+            D5Sharp,
+            E5,
+            F5,
+            F5Sharp,
+            G5,
+            G5Sharp,
+            A5,
+            A5Sharp,
+            B5,
+        }
+        public void Start()
+        {
+            Dictionary<string, double> notes = new Dictionary<string, double>();
+            notes["c5"] = 523.251;
+            notes["c#5"] = 554.365;
+            notes["d5"] = 587.330;
+            notes["d#5"] = 622.254;
+            notes["e5"] = 659.255;
+            notes["f5"] = 698.456;
+            notes["f#5"] = 739.989;
+            notes["g5"] = 783.991;
+            notes["g#5"] = 830.609;
+            notes["a5"] = 880.000;
+            notes["a#5"] = 932.328;
+            notes["b5"] = 987.767;
+        }
+
+
+        //double[] soundTrack =
+        //{
+        //    523.251,
+        //    554.365,
+        //    587.330,
+        //    622.254,
+        //    659.255,
+        //    698.456,
+        //    739.989,
+        //    783.991,
+        //    830.609,
+        //    880.000,
+        //    932.328,
+        //    987.767
+        //};        
+        double[] soundTrack =
+        {
+            523.251,
+            523.251,
+            659.255,
+            523.251,
+            880.000,
+            523.251,
+            659.255,
+            523.251,
+        };
+        int[] soundtrackPos = new int[soundTrack.Length];
+
+            for (int i = 0; i<soundTrack.Length; i++)
+            {
+                Console.Beep(soundTrack[i], 300);
+            }

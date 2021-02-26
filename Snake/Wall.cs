@@ -55,15 +55,19 @@ namespace Snake
                             Position previousHor = new Position(i, j);
                             if (i == 1 || i == ww)
                             {
-                                var newWall = new Wall();
-                                //newWall.Position = new Position(i, j);
-                                newWall.Position = new Position(i != previousHor.X ? i : previousHor.X, j != previousHor.Y ? j : previousHor.Y);
+                                var newWall = new Wall
+                                {
+                                    //newWall.Position = new Position(i, j);
+                                    Position = new Position(i != previousHor.X ? i : previousHor.X, j != previousHor.Y ? j : previousHor.Y)
+                                };
                                 wallObjects.Add(newWall);
                             }
                             if (j == 2 || j == wh)
                             {
-                                var newWall = new Wall();
-                                newWall.Position = new Position(i != previousHor.X ? i : previousHor.X, j != previousHor.Y ? j : previousHor.Y);
+                                var newWall = new Wall
+                                {
+                                    Position = new Position(i != previousHor.X ? i : previousHor.X, j != previousHor.Y ? j : previousHor.Y)
+                                };
                                 wallObjects.Add(newWall);
                             }
                         }

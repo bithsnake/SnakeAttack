@@ -56,7 +56,7 @@ namespace Snake
         public static CurrentGameState gameState = CurrentGameState.StartMenu;
 
         //Use this to deisable screen resizing
-        public static bool DisableWindowResize = false;
+        public static bool DisableWindowResize = true;
 
         /*Settings for disable screen resizing*/
         private const int MF_BYCOMMAND = 0x00000000;
@@ -469,7 +469,7 @@ namespace Snake
         /// The Main Program
         /// </summary>
         /// <param name="args"></param>
-        static void Main()
+        static void Main(string[] args)
         {
             if (DisableWindowResize)
             {

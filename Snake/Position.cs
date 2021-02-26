@@ -4,6 +4,9 @@ using System.Text;
 
 namespace Snake
 {
+    /// <summary>
+    /// A Position struct
+    /// </summary>
     struct Position
     {
         public int X;

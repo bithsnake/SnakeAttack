@@ -112,6 +112,7 @@ namespace Snake
         /// </summary>
         void CreateEnemy()
         {
+           
             void CreateAndSetEnemyPosition(int offset)
             {
                 Enemy enemy = new Enemy('†', Direction.Down);
@@ -124,7 +125,8 @@ namespace Snake
                 enemy.Position = new Position(newX, newY);
                 gameObjects.Add(enemy);
             }
-            var sec = DateTime.Now.Second;
+
+            // Create atype of enemy depending on difficulty
             switch (Program.currentRank)
             {
                 case Difficulty.Easy:
@@ -268,28 +270,6 @@ namespace Snake
                             }
                         }
                     }
-                    //If somebody in the list is a Wall object
-                    foreach (var walls in gameObjects)
-                    {
-                        if (walls is Wall)
-                        {
-                            var parentWall = walls as Wall;
-
-                            foreach (var wallInstance in parentWall.wallObjects)
-                            {
-                                if (instPlayer.Position.X == wallInstance.Position.X && instPlayer.Position.Y == wallInstance.Position.Y)
-                                {
-                                    globalTimer = 0;
-                                    Program.runGame = false;
-                                    Console.Beep(1500, 400);
-                                    instPlayer.Position = new Position(Console.WindowWidth / 2, Console.WindowHeight / 2);
-                                    break;
-                                }
-                            }
-
-                        }
-                    }
-
                     
                     //If somebody in the list is a Enemy object
                     foreach (var enemy in gameObjects)

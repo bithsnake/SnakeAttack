@@ -13,6 +13,10 @@ namespace Snake
             Console.SetCursorPosition(this.X, this.Y);
             Console.Write(' ');
         }
+        
+        /// <summary>
+        /// Game Start Update loop
+        /// </summary>
         public override void Update()
         {
             try
@@ -53,9 +57,10 @@ namespace Snake
         }
 
 
+        //Not used
         public override void CheckBorder()
         {
-            base.CheckBorder();
+            //base.CheckBorder();
         }
     }
 }

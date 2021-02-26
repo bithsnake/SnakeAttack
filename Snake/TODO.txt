@@ -1,5 +1,0 @@
-﻿1. inccrase the speed withing a clamp when in different difficulties
-2. Spawn enemies randomly when it gets harder
-3. in Hard more create a wall around the whole stage
-4. if you have time, create the tail
-5. Show the seconds and score when game over and save them to a .dat file or something

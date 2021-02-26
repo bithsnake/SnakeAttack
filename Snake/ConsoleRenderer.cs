@@ -2,11 +2,13 @@
 
 namespace Snake
 {
-
-
-    class ConsoleRenderer
+    public class ConsoleRenderer
     {
-        private readonly GameWorld world;
+        public readonly GameWorld world;
+        /// <summary>
+        /// Init the consolerenderer
+        /// </summary>
+        /// <param name="gameWorld"></param>
         public ConsoleRenderer(GameWorld gameWorld)
         {
             world = gameWorld;
@@ -22,14 +24,17 @@ namespace Snake
         bool canDrawWall = true;
 
         /// <summary>
-        /// GUI where you can see your current score, the game timer and the gamespeed
+        /// GUI where you can see your current score, the game timer and the gamespeed.
         /// </summary>
         public void RenderShowStatus()
         {
+            //Show the status bar on the top of the screen
             Console.SetCursorPosition((int)(0 +world.WindowWidth*0.05), 0);
             string globalTimerFormatted = String.Format("{0:#}", world.globalTimer);
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.Write($"Score: {world.score} Time: {globalTimerFormatted} Spd: {world.globalGameSpeed}");
+
+            //Set the foreground color depending on the difficulty.
             switch (Program.currentRank)
             {
                 case Difficulty.Easy:
@@ -45,12 +50,10 @@ namespace Snake
                     Console.ForegroundColor = ConsoleColor.DarkMagenta;
                     break;
             }
-                
-
         }
 
         /// <summary>
-        /// Render blank spaces to avoid blinking on the console window
+        /// Render blank spaces to avoid blinking on the console window.
         /// </summary>
         public void RenderBlank(GameWorld world)
         {
@@ -104,9 +107,7 @@ namespace Snake
                     Console.SetCursorPosition(instEnemy.X, instEnemy.Y);
                     Console.Write(instEnemy.InstanceChar);
                 }
-
                 //DRAW WALL
-
                 if (instance is Wall && instance is IRenderable && canDrawWall)
                 {
                     var instWall = instance as Wall;

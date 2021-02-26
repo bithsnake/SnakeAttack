@@ -2,6 +2,9 @@
 
 namespace Snake
 {
+    /// <summary>
+    /// Main Player Class
+    /// </summary>
     class Player : GameObject, IRenderable, IMovable
     {
         private char mychar;
@@ -53,7 +56,7 @@ namespace Snake
             }
         }
         /// <summary>
-        /// Check console window borders and wrap X and Y position accordingly if cooridnates axceeds the borders.
+        /// Check console window borders and wrap X and Y position accordingly if coordinates exceeds the borders.
         /// </summary>
         /// <param name="position"></param>
         public override void CheckBorder()

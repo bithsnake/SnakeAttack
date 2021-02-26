@@ -4,6 +4,9 @@ using System.Runtime.InteropServices;
 
 namespace Snake
 {
+    /// <summary>
+    /// Objects Directions.
+    /// </summary>
     enum Direction
     {
         Up,
@@ -12,6 +15,9 @@ namespace Snake
         Down,
         None
     };
+    /// <summary>
+    /// Difficulty.
+    /// </summary>
     enum Difficulty
     {
         Easy,
@@ -19,41 +25,40 @@ namespace Snake
         Hard,
         Extreme
     }
+    /// <summary>
+    /// Game States.
+    /// </summary>
     enum CurrentGameState
     {
         StartMenu,
         InGame,
         GameOver
     }
-   
-    
     /// <summary>
     /// The Main Program
     /// </summary>
     class Program
     {
-
-
-
         //Init Public values
         public static bool runGame = false;
-       // Game Ranks
-       public static int lowRank = 6;
-       public static int mediumRank = 18;
-       public static int highRank = 25;
-       //initial speed at start
-       public static int startSpeed = 8;
-       public static Difficulty currentRank = Difficulty.Easy;
-       public static int globalTimer = 0;
-       //Public scores
-       public static int currentScore = 0;
-       public static int highScore = 0;
-       //Game initial state
-       public static CurrentGameState gameState = CurrentGameState.StartMenu;
+        // Game Ranks
+        public static int lowRank = 6;
+        public static int mediumRank = 18;
+        public static int highRank = 25;
+        //initial speed at start
+        public static int startSpeed = 8;
+        public static Difficulty currentRank = Difficulty.Easy;
+        public static int globalTimer = 0;
+        //Public scores
+        public static int currentScore = 0;
+        public static int highScore = 0;
+        //Game initial state
+        public static CurrentGameState gameState = CurrentGameState.StartMenu;
 
+        //Use this to deisable screen resizing
         public static bool DisableWindowResize = false;
 
-        /*I really want to avoid resixing the window since that is unnescesary,*/
+        /*Settings for disable screen resizing*/
         private const int MF_BYCOMMAND = 0x00000000;
         public const int SC_MAXIMIZE = 0xF030;
         public const int SC_SIZE = 0xF000;
@@ -71,16 +76,17 @@ namespace Snake
         /// Gets the current rank.
         /// </summary>
         /// <returns>Returns the Current rank.</returns>
+        /// 
         public static Difficulty GetRank()
-       {
+        {
             //Set difficulty
             return currentRank;
-       }
+        }
         /// <summary>
         /// Sets the rank depending on the current score.
         /// </summary>
         /// <param name="currentscore">Input current score.</param>
-       public static void SetRank(int currentscore)
+        public static void SetRank(int currentscore)
         {
             //Set difficulty
             var s = currentscore;
@@ -104,17 +110,17 @@ namespace Snake
             }
         }
 
-       /// <summary>
+        /// <summary>
         /// Checks Console to see if a keyboard key has been pressed, if so returns it as lowercase, otherwise returns '\0'.
         /// </summary>
-       static char ReadKeyIfExists() => Console.KeyAvailable ? Console.ReadKey(intercept: true).Key.ToString().ToLower()[0] : '\0';
+        static char ReadKeyIfExists() => Console.KeyAvailable ? Console.ReadKey(intercept: true).Key.ToString().ToLower()[0] : '\0';
 
-       /// <summary>
+        /// <summary>
         /// Move the players diretion according to keyboard inputs
         /// </summary>
         /// <param name="key"></param>
         /// <param name="snake"></param>
-       static void Move(char key,Player snake)
+        static void Move(char key,Player snake)
         {
             switch (key)
             {
@@ -135,15 +141,15 @@ namespace Snake
             }            
         }
 
-       /// <summary>
-       /// Sets the background and foreground color depending on the difficulty.
-       /// </summary>
-       /// <param name="score">Input current score.</param>
-       /// <param name="low">Input low rank score.</param>
-       /// <param name="medium">Input medium rank score.</param>
-       /// <param name="high">Input high rank score.</param>
-       public static void SetColorAndSound()
-       {
+        /// <summary>
+        /// Sets the background and foreground color depending on the difficulty.
+        /// </summary>
+        /// <param name="score">Input current score.</param>
+        /// <param name="low">Input low rank score.</param>
+        /// <param name="medium">Input medium rank score.</param>
+        /// <param name="high">Input high rank score.</param>
+        public static void SetColorAndSound()
+        {
             //var bgc = Console.BackgroundColor;
             //Console.Clear();
             switch (Program.currentRank)
@@ -175,8 +181,8 @@ namespace Snake
         /// <param name="high"></param>
         /// <param name="currentrank"></param>
         /// <returns>New framerate speed.</returns>
-       public static int SetDifficulty(int score,int currentspeed)
-       {
+        public static int SetDifficulty(int score,int currentspeed)
+        {
             int low, medium, high,extreme;
             low     = Program.lowRank;
             medium  = Program.mediumRank;
@@ -383,35 +389,32 @@ namespace Snake
         /// <summary>
         /// Main game loop
         /// </summary>
-       static void GameLoop()
+        static void GameLoop()
         {
             #region INIT
             //Create And initialise the global game objects
             GameWorld world             = new GameWorld(32,16, startSpeed); //The World, width,height,gamespeed      
             Player snake                = world.CreatePlayer();             //Snake
-            Tail tail                   = new Tail('o',snake.Position);     //The tail
             world.CreateFood(world);                                        //The food
             ConsoleRenderer renderer    = new ConsoleRenderer(world);       //Create the renderer
 
             //Init global game settings
             SetDifficulty(world.score, world.globalGameSpeed);         //Set Start difficulty (sets game speed)
             bool canResetseconds        = true;
-            int frameRate               = world.globalGameSpeed;
-            int framRateBuffer          = frameRate;
-            int frameHalfSpeed          = framRateBuffer / 2; //Not used yet
+            //int frameRate               = world.globalGameSpeed;
+            //int framRateBuffer          = frameRate;          //Not used yet
+            //int frameHalfSpeed          = framRateBuffer / 2; //Not used yet
             runGame                     = true;
             Console.ResetColor();
             Console.Clear();
-            //Console.BackgroundColor     = ConsoleColor.Black;
-            //Console.ForegroundColor     = ConsoleColor.White;
             
             #endregion
             while (runGame == true)
             {
                 //Set globalframerate
-                frameRate = world.globalGameSpeed;
-                framRateBuffer = frameRate;
-                //frameHalfSpeed = framRateBuffer / 2;    //not used at the moment
+                int frameRate = world.globalGameSpeed;
+                //framRateBuffer = frameRate;             //Not used yet
+                //frameHalfSpeed = framRateBuffer / 2;    //not used yet
 
 
 
@@ -461,7 +464,12 @@ namespace Snake
             gameState = CurrentGameState.GameOver;
         }
 
-        static void Main(string[] args)
+
+        /// <summary>
+        /// The Main Program
+        /// </summary>
+        /// <param name="args"></param>
+        static void Main()
         {
             if (DisableWindowResize)
             {

@@ -5,6 +5,9 @@ using System.Linq;
 
 namespace Snake
 {
+    /// <summary>
+    /// Wall Class
+    /// </summary>
     class Wall : GameObject, IRenderable
     {
         private char myChar;
@@ -33,7 +36,7 @@ namespace Snake
             //nothing here
         }
         /// <summary>
-        /// Create walls.
+        /// Create walls around the stage.
         /// </summary>
         public void CreateWalls()
         {
@@ -41,30 +44,37 @@ namespace Snake
             var wh = Console.WindowHeight - 2;
 
             int wallAmount = ww * 2 + wh;
-
-            if (wallObjects.Count < wallAmount)
+            try
             {
-                for (int i = 1; i <= ww; i++)
+                if (wallObjects.Count < wallAmount)
                 {
-                    for (int j = 2; j <= wh; j++)
+                    for (int i = 1; i <= ww; i++)
                     {
-                        Position previousHor = new Position(i, j);
-                        if (i == 1 || i == ww)
+                        for (int j = 2; j <= wh; j++)
                         {
-                            var newWall = new Wall();
-                            //newWall.Position = new Position(i, j);
-                            newWall.Position = new Position(i != previousHor.X ? i : previousHor.X, j != previousHor.Y ? j : previousHor.Y);
-                            wallObjects.Add(newWall);
-                        }
-                        if (j == 2 || j == wh)
-                        {
-                            var newWall = new Wall();
-                            newWall.Position = new Position(i != previousHor.X ? i : previousHor.X, j != previousHor.Y ? j : previousHor.Y);
-                            wallObjects.Add(newWall);
+                            Position previousHor = new Position(i, j);
+                            if (i == 1 || i == ww)
+                            {
+                                var newWall = new Wall();
+                                //newWall.Position = new Position(i, j);
+                                newWall.Position = new Position(i != previousHor.X ? i : previousHor.X, j != previousHor.Y ? j : previousHor.Y);
+                                wallObjects.Add(newWall);
+                            }
+                            if (j == 2 || j == wh)
+                            {
+                                var newWall = new Wall();
+                                newWall.Position = new Position(i != previousHor.X ? i : previousHor.X, j != previousHor.Y ? j : previousHor.Y);
+                                wallObjects.Add(newWall);
+                            }
                         }
                     }
                 }
             }
+            catch (ArgumentOutOfRangeException)
+            {
+                throw new ArgumentOutOfRangeException("Window size too big or small");
+            }
+
         }
     }
 }

@@ -36,9 +36,10 @@ namespace Snake
                 $"{(isCentered ? "''" + pressQuit + "''" : "")}");
         }
 
+        // Not used
         public override void CheckBorder()
         {
-            base.CheckBorder();
+
         }
     }
 }

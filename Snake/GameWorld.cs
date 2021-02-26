@@ -245,15 +245,15 @@ namespace Snake
                 }
             }
 
-            //Player Collisions
+            
             foreach (var instance in gameObjects)
             {
-                //Somebody in the list is a Player object
+                //PLAYER COLLISIONS
                 if (instance is Player)
                 {
                     var instPlayer = instance as Player;
 
-                    //If somebody in the list is a Food object
+                    //COLLISIONS WITH FOOD
                     foreach (var food in gameObjects)
                     {
                         if (food is Food)
@@ -271,7 +271,7 @@ namespace Snake
                         }
                     }
                     
-                    //If somebody in the list is a Enemy object
+                    //COLLISIONS WITH ENEMY
                     foreach (var enemy in gameObjects)
                     {
                         if (enemy is Enemy)
@@ -281,7 +281,7 @@ namespace Snake
                             //If collide with player, take away score and reduce the timer
                             if (instEnemy.Position.X == instPlayer.Position.X && instEnemy.Position.Y == instPlayer.Position.Y)
                             {
-                                Console.Beep(1200, 20);
+                                Console.Beep(700, 20);
                                 if (score > 0)
                                 {
                                     score--;
@@ -289,6 +289,29 @@ namespace Snake
                                     gameObjects.Remove(instEnemy);
                                 }
                                 break;
+                            }
+                        }
+                    }
+                    
+                    //COLLISIONS WITH WALL OBJECT
+                    foreach (var wall in gameObjects)
+                    {
+                        if (wall is Wall)
+                        {
+                            var parentWall = wall as Wall;
+                            foreach (var instWall in parentWall.wallObjects)
+                            {
+                                //If collide with player, take away score and reduce the timer
+                                if (instPlayer.Position.X == instWall.Position.X && instPlayer.Position.Y == instWall.Position.Y)
+                                {
+                                    Console.Beep(666, 666);
+                                    globalTimer = 0;
+                                    instPlayer.Position = new Position(Console.WindowWidth / 2, Console.WindowHeight / 2);
+                                    instPlayer.CurrentDirection = Direction.None;
+                                    Program.runGame = false;
+
+                                    break;
+                                }
                             }
                         }
                     }

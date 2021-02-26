@@ -2,9 +2,9 @@
 
 namespace Snake
 {
-    public class ConsoleRenderer
+    class ConsoleRenderer
     {
-        public readonly GameWorld world;
+        private readonly GameWorld world;
         /// <summary>
         /// Init the consolerenderer
         /// </summary>
@@ -29,7 +29,7 @@ namespace Snake
         public void RenderShowStatus()
         {
             //Show the status bar on the top of the screen
-            Console.SetCursorPosition((int)(0 +world.WindowWidth*0.05), 0);
+            Console.SetCursorPosition((int)(0 +world.WindowWidth*0.12), 0);
             string globalTimerFormatted = String.Format("{0:#}", world.globalTimer);
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.Write($"Score: {world.score} Time: {globalTimerFormatted} Spd: {world.globalGameSpeed}");

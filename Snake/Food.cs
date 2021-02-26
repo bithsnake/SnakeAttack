@@ -87,26 +87,17 @@ namespace Snake
                 {
                     if(instance is Wall)
                     {
-                        var wall = instance as Wall;
-                        if (Position.X > world.WindowWidth/2 && Position.X == wall.X)
+                        var parentWall = instance as Wall;
+                        foreach (var instWall in parentWall.wallObjects)
                         {
-                            Position.X--;
-                        }else if (Position.X < world.WindowWidth/2 && Position.X == wall.X)
-                        {
-                            Position.X++;
-                        }
-                        if (Position.Y > world.WindowHeight/2 && Position.Y == wall.Y)
-                        {
-                            Position.Y--;
-                        }else if (Position.X < world.WindowWidth/2 && Position.X == wall.X)
-                        {
-                            Position.Y++;
+                            if (Position.X == instWall.X && Position.Y == instWall.Y)
+                            {
+                                ChangePosition(world);
+                            }
                         }
                     }
-
                 }
             }
-
         }
 
         /// <summary>

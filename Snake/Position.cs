@@ -7,7 +7,7 @@ namespace Snake
     /// <summary>
     /// A Position struct
     /// </summary>
-    struct Position
+    public struct Position
     {
         public int X;
         public int Y;

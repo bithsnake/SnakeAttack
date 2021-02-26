@@ -245,10 +245,9 @@ namespace Snake
                 }
             }
 
-            
+            //PLAYER COLLISIONS
             foreach (var instance in gameObjects)
             {
-                //PLAYER COLLISIONS
                 if (instance is Player)
                 {
                     var instPlayer = instance as Player;
@@ -270,8 +269,8 @@ namespace Snake
                             }
                         }
                     }
-                    
-                    //COLLISIONS WITH ENEMY
+
+                    //PLAYER COLLISIONS WITH ENEMY
                     foreach (var enemy in gameObjects)
                     {
                         if (enemy is Enemy)
@@ -292,8 +291,8 @@ namespace Snake
                             }
                         }
                     }
-                    
-                    //COLLISIONS WITH WALL OBJECT
+
+                    //PLAYER COLLISIONS WITH WALL OBJECT
                     foreach (var wall in gameObjects)
                     {
                         if (wall is Wall)
@@ -316,9 +315,6 @@ namespace Snake
                         }
                     }
                 }
-
-               
-                //instance.Update();
                 break;
             }
         }

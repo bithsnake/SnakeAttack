@@ -426,8 +426,6 @@ namespace Snake
                 //framRateBuffer = frameRate;             //Not used yet
                 //frameHalfSpeed = framRateBuffer / 2;    //not used yet
 
-
-
                 // Set the time from the current time
                 DateTime before = DateTime.Now;
                 //Use the current second

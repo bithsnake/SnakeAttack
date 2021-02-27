@@ -4,8 +4,35 @@ using System.Text;
 
 namespace Snake
 {
-    class GameOver: Player
+    public class GameOver : GameObject, IRenderable , IMovable
     {
+        private char mychar;
+        private Direction mydirection;
+
+        public char InstanceChar { get => mychar; set => mychar = value; }
+        public Direction CurrentDirection { get => mydirection; set => mydirection = value; }
+
+
+       internal void Move()
+        {
+            switch (CurrentDirection)
+            {
+                case Direction.Up:
+                    Position.Y -= 1;
+                    break;
+                case Direction.Right:
+                    Position.X += 1;
+                    break;
+                case Direction.Down:
+                    Position.Y += 1;
+                    break;
+                case Direction.Left:
+                    Position.X -= 1;
+                    break;
+                case Direction.None:
+                    break;
+            }
+        }
         public override void Update()
         {
             Program.currentRank = Difficulty.Easy;
@@ -23,7 +50,7 @@ namespace Snake
             {
                 CurrentDirection = Direction.None;
             }
-            base.Update();
+            Move();
             if (!isCentered)
             {
                 Console.Clear();

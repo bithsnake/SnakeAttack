@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Threading;
 using System.Runtime.InteropServices;
+using System.Collections.Generic;
 
 namespace Snake
 {
     /// <summary>
     /// Objects Directions.
     /// </summary>
-    enum Direction
+    public enum Direction
     {
         Up,
         Right,
@@ -18,7 +19,7 @@ namespace Snake
     /// <summary>
     /// Difficulty.
     /// </summary>
-    enum Difficulty
+    public enum Difficulty
     {
         Easy,
         Medium,
@@ -28,7 +29,7 @@ namespace Snake
     /// <summary>
     /// Game States.
     /// </summary>
-    enum CurrentGameState
+    public enum CurrentGameState
     {
         StartMenu,
         InGame,
@@ -41,6 +42,7 @@ namespace Snake
     {
         //Init Public values
         public static bool runGame = false;
+        public static bool quitGame = false;
         // Game Ranks
         public static int lowRank = 6;
         public static int mediumRank = 18;
@@ -136,6 +138,11 @@ namespace Snake
                 case 'd':
                     snake.CurrentDirection = (snake.CurrentDirection != Direction.Left) ? Direction.Right : Direction.Left;
                     break;
+                case 'q':
+                    Program.runGame = false;
+                    Program.quitGame = true;
+                    Program.globalTimer = 0;
+                    break;
                 default:
                     break;
             }            
@@ -229,10 +236,11 @@ namespace Snake
             #region CREATE OBJECTS AND INIT VALUES
 
             //Create objects
-            GameWorld world = new GameWorld(32, 16, lowRank);          //The World, width,height,gamespeed
-            ConsoleRenderer renderer = new ConsoleRenderer(world);       //Create the renderer
+            List<GameObject> gameObjectList = new List<GameObject>();           //Object List
+            GameWorld world = new GameWorld(32, 16, lowRank, gameObjectList);   //The World, width,height,gamespeed and list
+            ConsoleRenderer renderer = new ConsoleRenderer(world);              //Create the renderer
             GameStart intro = new GameStart();
-            world.gameObjects.Add(intro);
+            world.gameObjectList.Add(intro);
 
             //Init values
             bool pressedStart = false;
@@ -305,10 +313,11 @@ namespace Snake
         static bool Gameover()
         {
             #region CREATE OBJECTS AND INIT VALUES
-            GameWorld world = new GameWorld(32, 16, lowRank);       //The World, width,height,gamespeed
-            ConsoleRenderer renderer = new ConsoleRenderer(world);  //Create the renderer
-            GameOver gameover = new GameOver();                     //Create the gameover object
-            world.gameObjects.Add(gameover);
+            List<GameObject> gameObjectList = new List<GameObject>();               //Object List
+            GameWorld world = new GameWorld(32, 16, lowRank, gameObjectList);       //The World, width,height,gamespeed and list
+            ConsoleRenderer renderer = new ConsoleRenderer(world);                  //Create the renderer
+            GameOver gameover = new GameOver();                                     //Create the gameover object
+            world.gameObjectList.Add(gameover);
 
             //Init values
             bool choiceDone = false;
@@ -393,23 +402,24 @@ namespace Snake
         {
             #region INIT
             //Create And initialise the global game objects
-            GameWorld world             = new GameWorld(32,16, startSpeed); //The World, width,height,gamespeed      
-            Player snake                = world.CreatePlayer();             //Snake
-            world.CreateFood(world);                                        //The food
-            ConsoleRenderer renderer    = new ConsoleRenderer(world);       //Create the renderer
+            List<GameObject> gameObjectList = new List<GameObject>();                           //Object List
+            GameWorld world                 = new GameWorld(32,16, startSpeed,gameObjectList);  //The World, width,height,gamespeed and list   
+            Player snake                    = world.AddPlayer('☻',Direction.None);           //Snake
+            world.CreateFood(world);                                                            //The food
+            ConsoleRenderer renderer        = new ConsoleRenderer(world);                       //Create the renderer
 
             //Init global game settings
             SetDifficulty(world.score, world.globalGameSpeed);         //Set Start difficulty (sets game speed)
-            bool canResetseconds        = true;
-            //int frameRate               = world.globalGameSpeed;
-            //int framRateBuffer          = frameRate;          //Not used yet
-            //int frameHalfSpeed          = framRateBuffer / 2; //Not used yet
-            runGame                     = true;
+            bool canResetseconds            = true;
+            //int frameRate                 = world.globalGameSpeed;
+            //int framRateBuffer            = frameRate;          //Not used yet
+            //int frameHalfSpeed            = framRateBuffer / 2; //Not used yet
+            runGame                         = true;
             Console.ResetColor();
             Console.Clear();
             
             #endregion
-            while (runGame == true)
+            while (runGame == true && Program.quitGame == false)
             {
                 //Set globalframerate
                 int frameRate = world.globalGameSpeed;
@@ -452,6 +462,7 @@ namespace Snake
                     Thread.Sleep((int)frameTime);
                 }
 
+                //Game over if timer goes below 1
                 if (world.globalTimer < 1)
                 {
                     runGame = false;
@@ -461,7 +472,11 @@ namespace Snake
                 //Save current score to a global int
                 currentScore = world.score;
             }
-            gameState = CurrentGameState.GameOver;
+            if (!Program.quitGame)
+            {
+                gameState = CurrentGameState.GameOver;
+            }
+            
         }
 
 
@@ -469,7 +484,7 @@ namespace Snake
         /// The Main Program
         /// </summary>
         /// <param name="args"></param>
-        static void Main(string[] args)
+        static void Main()
         {
             if (DisableWindowResize)
             {
@@ -485,11 +500,12 @@ namespace Snake
 
            bool runGame = true;
 
-           while (runGame)
+ 
+           while (runGame && !Program.quitGame) 
            {
-                switch (gameState)
+                switch (gameState) 
                 {
-                    case CurrentGameState.StartMenu:
+                    case CurrentGameState.StartMenu: 
                         GameStart();
                         break;
                     case CurrentGameState.InGame:

@@ -5,14 +5,15 @@ using System.Linq;
 
 namespace Snake
 {
-    class GameWorld
+   public class GameWorld
     {
         public int windowWidth;
         public int windowHeight;
         public int score = 0;
         public  double globalTimer  = 10;
         public  int globalGameSpeed;
-        private GameWorld world;
+        public GameWorld world;
+        public List<GameObject> gameObjectList;
 
         /// <summary>
         /// Set window width in pixels.
@@ -28,6 +29,7 @@ namespace Snake
         public int GlobalGameSpeed { get => globalGameSpeed; set => globalGameSpeed = value; }
 
         public GameWorld World { get => world; set => world = value; }
+        public List<GameObject> GameObjectList { get => gameObjectList; set => gameObjectList = value; }
         
         /// <summary>
         /// Game world object constructor
@@ -35,30 +37,33 @@ namespace Snake
         /// <param name="windowWidth">  Set window width in pixels.                 </param>
         /// <param name="windowHeight"> set window height in pixels                 </param>
         /// <param name="gamespeed">    Initialize the start game speed(in frames). </param>
-        public GameWorld(int windowWidth,int windowHeight, int speed)
+        public GameWorld(int windowWidth,int windowHeight, int speed, List<GameObject> objectList)
         {
             WindowWidth = windowWidth;
             WindowHeight = windowHeight;
             World = world;
             GlobalGameSpeed = speed;
+            GameObjectList = objectList;
         }
         /// <summary>
-        /// The game objects that thw world is going to contain
+        /// The game objects that the world is going to contain
         /// </summary>
-        public List<GameObject> gameObjects = new List<GameObject>();
+        //public List<GameObject> gameInstanceList = new List<GameObject>();
 
         /// <summary>
         /// Create and initialise the snake and add it to the GameObject List.
         /// </summary>
-        /// <returns></returns>
-        public Player CreatePlayer()
+        /// <param name="world">Input world this player is added to.</param>
+        /// <param name="playerSprite">Input char to use as a sprite.</param>
+        /// <param name="initDirection">Set initial direction.</param>
+        public Player AddPlayer(char playerSprite,Direction initDirection)
         {
-            Player name = new Player('☻', Direction.None)
+            Player snake = new Player(playerSprite, initDirection)
             {
                 Position = new Position(new Random().Next(4, windowWidth - 1), new Random().Next(4, windowHeight - 1))
             };
-            gameObjects.Add(name);
-            return name;
+            gameObjectList.Add(snake);
+            return snake;
         }
 
         /// <summary>
@@ -80,7 +85,7 @@ namespace Snake
             }
 
             //Create the food in a X & Y coordinate that the snake is not initialized in
-            foreach (var instance in gameObjects)
+            foreach (var instance in gameObjectList)
             {
                 if (instance is Player)
                 {
@@ -91,7 +96,7 @@ namespace Snake
                     }
                 }
             }
-            gameObjects.Add(food);
+            gameObjectList.Add(food);
         }
         
         /// <summary>
@@ -123,7 +128,7 @@ namespace Snake
                 newX = random;
                 newY = 2;
                 enemy.Position = new Position(newX, newY);
-                gameObjects.Add(enemy);
+                gameObjectList.Add(enemy);
             }
 
             // Create atype of enemy depending on difficulty
@@ -135,7 +140,7 @@ namespace Snake
 
                     if (score > 14)
                     {
-                        if (Program.globalTimer % 4 == 0 && !gameObjects.OfType<Enemy>().Any())
+                        if (Program.globalTimer % 4 == 0 && !gameObjectList.OfType<Enemy>().Any())
                         {
                             CreateAndSetEnemyPosition(new Random().Next(3,10));
                         }
@@ -143,26 +148,26 @@ namespace Snake
 
                     break;
                 case Difficulty.Hard:
-                    if (Program.globalTimer % 2 == 0 && gameObjects.OfType<Enemy>().Count() < 3)
+                    if (Program.globalTimer % 2 == 0 && gameObjectList.OfType<Enemy>().Count() < 3)
                     {
                         CreateAndSetEnemyPosition(8);
                     }
-                    if (Program.globalTimer % 5 == 0 && gameObjects.OfType<Enemy>().Count() < 3)
+                    if (Program.globalTimer % 5 == 0 && gameObjectList.OfType<Enemy>().Count() < 3)
                     {
                         CreateAndSetEnemyPosition(6);
                     }
                     break;
                 case Difficulty.Extreme:
 
-                    if (Program.globalTimer % 2 == 0 && gameObjects.OfType<Enemy>().Count() < 4)
+                    if (Program.globalTimer % 2 == 0 && gameObjectList.OfType<Enemy>().Count() < 4)
                     {
                         CreateAndSetEnemyPosition(3);
                     }
-                    if (Program.globalTimer % 4 == 0 && gameObjects.OfType<Enemy>().Count() < 4)
+                    if (Program.globalTimer % 4 == 0 && gameObjectList.OfType<Enemy>().Count() < 4)
                     {
                         CreateAndSetEnemyPosition(4);
                     }
-                    if (Program.globalTimer % 6 == 0 && gameObjects.OfType<Enemy>().Count() < 4)
+                    if (Program.globalTimer % 6 == 0 && gameObjectList.OfType<Enemy>().Count() < 4)
                     {
                         CreateAndSetEnemyPosition(6);
                     }
@@ -183,9 +188,9 @@ namespace Snake
                     break;
                 case Difficulty.Medium:
                     //Create a main/parent instance of the wall if there is not any Instance of type Wall
-                    if (!gameObjects.OfType<Wall>().Any())
+                    if (!gameObjectList.OfType<Wall>().Any())
                     {
-                        foreach (var obj in gameObjects)
+                        foreach (var obj in gameObjectList)
                         {
                             if(obj is Player)
                             {
@@ -201,7 +206,7 @@ namespace Snake
                             }
                         }
                         Wall wall = new Wall(' ');
-                        gameObjects.Add(wall);
+                        gameObjectList.Add(wall);
                         wall.wallObjects = new List<Wall>();
                         wall.CreateWalls();
                     }
@@ -219,7 +224,7 @@ namespace Snake
         public void Update()
         {
             //Run update on all instances first
-            foreach (var instance in gameObjects)
+            foreach (var instance in gameObjectList)
             {
                 instance.Update();
             }
@@ -229,7 +234,7 @@ namespace Snake
 
             //Enemy AI
             CreateEnemy();
-            foreach (var instance in gameObjects)
+            foreach (var instance in gameObjectList)
             {
                 if (instance is Enemy)
                 {
@@ -238,7 +243,7 @@ namespace Snake
                     var instEnemy = instance as Enemy;
                     if (instEnemy.Y >= Console.WindowHeight - 1)
                     {
-                        gameObjects.Remove(instEnemy);
+                        gameObjectList.Remove(instEnemy);
                         break;
                     }
                     
@@ -246,14 +251,14 @@ namespace Snake
             }
 
             //PLAYER COLLISIONS
-            foreach (var instance in gameObjects)
+            foreach (var instance in gameObjectList)
             {
                 if (instance is Player)
                 {
                     var instPlayer = instance as Player;
 
                     //COLLISIONS WITH FOOD
-                    foreach (var food in gameObjects)
+                    foreach (var food in gameObjectList)
                     {
                         if (food is Food)
                         {
@@ -263,7 +268,7 @@ namespace Snake
                             {
                                 var currentWorld = instFood.World;
                                 UpdateScoreAndDifficulty();
-                                gameObjects.Remove(instFood);
+                                gameObjectList.Remove(instFood);
                                 CreateFood(currentWorld);
                                 break;
                             }
@@ -271,7 +276,7 @@ namespace Snake
                     }
 
                     //PLAYER COLLISIONS WITH ENEMY
-                    foreach (var enemy in gameObjects)
+                    foreach (var enemy in gameObjectList)
                     {
                         if (enemy is Enemy)
                         {
@@ -285,7 +290,7 @@ namespace Snake
                                 {
                                     score--;
                                     globalTimer--;
-                                    gameObjects.Remove(instEnemy);
+                                    gameObjectList.Remove(instEnemy);
                                 }
                                 break;
                             }
@@ -293,7 +298,7 @@ namespace Snake
                     }
 
                     //PLAYER COLLISIONS WITH WALL OBJECT
-                    foreach (var wall in gameObjects)
+                    foreach (var wall in gameObjectList)
                     {
                         if (wall is Wall)
                         {

@@ -54,7 +54,7 @@ namespace Snake
                 this.Position = new Position(new Random().Next(4, world.windowWidth - 5), new Random().Next(4, world.windowHeight - 5));
 
                 //Check that the food is not colliding with the player or the wall, otherwise change position
-                foreach (var instance in world.gameObjects)
+                foreach (var instance in world.gameObjectList)
                 {
                     if (instance is Player)
                     {
@@ -83,7 +83,7 @@ namespace Snake
         {
             if(Program.currentRank != Difficulty.Easy)
             {
-                foreach (var instance in world.gameObjects)
+                foreach (var instance in world.gameObjectList)
                 {
                     if(instance is Wall)
                     {
@@ -121,7 +121,5 @@ namespace Snake
                 }
             }
         }
-
-
     }
 }

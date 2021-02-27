@@ -5,33 +5,26 @@ namespace Snake
     /// <summary>
     /// Main Player Class
     /// </summary>
-    class Player : GameObject, IRenderable, IMovable
+    public class Player : GameObject, IRenderable, IMovable
     {
         private char mychar;
         private Direction mydirection;
+        private GameWorld world;
         public char InstanceChar { get => mychar; set => mychar = value; }
         public Direction CurrentDirection { get => mydirection; set => mydirection = value; }
+        public GameWorld World { get => world; set => world = value; }
 
         /// <summary>
-        /// Empty constructor that sets default values to char and direction
+        /// Initialize player
         /// </summary>
-        public Player()
-            :this('S',Direction.None)
-        {
-
-        }
-
-        /// <summary>
-        /// Overloaded constructor
-        /// </summary>
-        /// <param name="charSprite"></param>
+        /// <param name="playerSprite"></param>
         /// <param name="dir"></param>
-        public Player(char charSprite, Direction dir)
-
+        public Player(char sprite,Direction direction)
         {
-            InstanceChar = charSprite;
-            CurrentDirection = dir;
+            InstanceChar = sprite;
+            CurrentDirection = direction;
         }
+
         /// <summary>
         /// Players main update, Checks direction and moves according to directions.
         /// </summary>

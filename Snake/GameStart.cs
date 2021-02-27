@@ -2,7 +2,7 @@
 
 namespace Snake
 {
-    class GameStart : Player
+    public class GameStart : GameOver
     {
         /// <summary>
         /// Render blank spaces to avoid blinking on the console window
@@ -33,7 +33,8 @@ namespace Snake
                 {
                     CurrentDirection = Direction.None;
                 }
-                base.Update();
+                base.Move();
+
                 if (!isCentered)
                 {
                     Console.Clear();
@@ -54,13 +55,6 @@ namespace Snake
                 Console.WriteLine("Dont adjust the window please, its meant to stay the size it start in.");
             }
 
-        }
-
-
-        //Not used
-        public override void CheckBorder()
-        {
-            //base.CheckBorder();
         }
     }
 }

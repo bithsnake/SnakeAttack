@@ -59,7 +59,7 @@ namespace Snake
         {
             try
             {
-                foreach (var instance in world.gameObjects)
+                foreach (var instance in world.gameObjectList)
                 {
                     if (instance is IRenderable)
                     {
@@ -82,7 +82,7 @@ namespace Snake
         /// </summary>
         public void Render()
         {
-            foreach (var instance in world.gameObjects)
+            foreach (var instance in world.gameObjectList)
             {
                 //DRAW PLAYER
                 if (instance is Player && instance is IRenderable)

@@ -6,7 +6,7 @@ namespace Snake
     /// <summary>
     /// A Class all game objects inherits from
     /// </summary>
-    abstract class GameObject
+    public abstract class GameObject
     {
         public Position Position;
         public int timer;
